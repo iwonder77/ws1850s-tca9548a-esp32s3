@@ -26,6 +26,7 @@ uint32_t last_poll_time = 0;
 
 // ----- BUTTON INTERRUPT STUFF -----
 const uint8_t BUTTON_PIN = 48;
+const uint8_t LED_PIN = 47;
 volatile bool pressed = false;
 volatile unsigned long last_press_time = 0;
 
@@ -56,6 +57,8 @@ void setup() {
   Serial.print("I2C SCL: GPIO");
   Serial.println(config::I2C_SCL);
 
+  pinMode(LED_PIN, OUTPUT);
+  digitalWrite(LED_PIN, LOW);
   pinMode(BUTTON_PIN, INPUT);
   attachInterrupt(digitalPinToInterrupt(BUTTON_PIN), buttonISR, FALLING);
 
@@ -65,12 +68,15 @@ void setup() {
 void loop() {
   uint32_t now = millis();
   if (pressed) {
+    digitalWrite(LED_PIN, HIGH);
     if (now - last_poll_time >= config::POLL_INTERVAL_MS) {
       for (int i = 0; i < config::NUM_READERS; i++) {
         readers[i].update();
       }
       last_poll_time = now;
     }
+  } else {
+    digitalWrite(LED_PIN, LOW);
   }
   delay(10);
 }
