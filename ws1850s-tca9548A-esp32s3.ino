@@ -28,6 +28,7 @@
 #include "src/Reader.h"
 
 Reader readers[] = { { "ch_0", 0 }, { "ch_1", 1 } };
+constexpr uint8_t NUM_READERS = sizeof(readers) / sizeof(readers[0]);
 uint32_t last_poll_time = 0;
 
 // ----- BUTTON INTERRUPT STUFF -----

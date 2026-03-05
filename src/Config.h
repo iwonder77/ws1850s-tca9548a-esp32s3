@@ -12,7 +12,6 @@ constexpr uint32_t BUTTON_DEBOUNCE_MS = 250;
 constexpr uint8_t CHANNEL_SWITCH_SETTLE_MS = 5;
 
 // ----- RFID2 READER -----
-constexpr uint8_t NUM_READERS = 2;
 constexpr uint16_t POLL_INTERVAL_MS =
     50; // how often to poll all readers for tags (ms)
 constexpr uint8_t READER_INIT_SETTLE_MS = 10;
