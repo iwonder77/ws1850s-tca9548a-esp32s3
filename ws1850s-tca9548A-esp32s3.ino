@@ -73,14 +73,15 @@ void setup() {
 
 void loop() {
   uint32_t now = millis();
-
-  if (now - last_poll_time >= config::POLL_INTERVAL_MS) {
-    for (int i = 0; i < config::NUM_READERS; i++) {
-      readers[i].update();
+  if (pressed) {
+    digitalWrite(LED_PIN, HIGH);
+    if (now - last_poll_time >= config::POLL_INTERVAL_MS) {
+      for (int i = 0; i < config::NUM_READERS; i++) {
+        readers[i].update();
+      }
+      last_poll_time = now;
     }
-    last_poll_time = now;
   } else {
     digitalWrite(LED_PIN, LOW);
   }
-  delay(10);
 }
