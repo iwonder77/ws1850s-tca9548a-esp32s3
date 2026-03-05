@@ -1,19 +1,25 @@
-/*
- * ----------------------------------------------
- * PROJECT: rfid-scan-on-demand
- * Description: Scan NTAG213 tags on Enter keypress via Serial Monitor
+/**
+ * Project: Prototyping for Gene Machine in Salon exhibit
+ * File: ws1850s-tca9548A-esp32s3.ino
+ * Description: Scan NTAG213 tags with two M5Stack RFID2 readers connected to channels
+ *              on the TCA9548A I2C mux
  *
- * Board: Waveshare ESP32-S3-ETH
- * RFID Module: M5Stack RFID2 (WS1850S, I2C @ 0x28)
+ * Author: Isai Sanchez
+ * Date: 3-5-26
+ * MCU Board: Waveshare ESP32-S3-ETH
+ * Hardware:
+ *  - RFID2 Module: M5Stack RFID2 (WS1850S, I2C @ 0x28)
+ *  - I2C Multiplexer: TCA9548A
  * Libraries:
- *   - Wire.h
- *   - MFRC522v2.h (https://github.com/OSSLibraries/Arduino_MFRC522v2/tree/master)
- *   - MFRC522DriverI2C.h
- *   - MFRC522Debug.h
+ *  - Wire.h
+ *  - MFRC522v2.h (https://github.com/OSSLibraries/Arduino_MFRC522v2/tree/master)
+ *  - MFRC522DriverI2C.h
+ *  - MFRC522Debug.h
  * Notes:
- *   - ESP32-S3 GPIO matrix allows I2C on almost any pin via Wire.begin(SDA, SCL)
- *   - WS1850S version check bypassed — known quirk with this module vs pure MFRC522
- * ----------------------------------------------
+ *  - ESP32-S3 GPIO matrix allows I2C on almost any pin via Wire.begin(SDA_PIN, SCL_PIN)
+ *  - WS1850S version check bypassed — known quirk with this module vs pure MFRC522
+ *
+ * (c) Thanksgiving Point Exhibits Electronics Team — 2025
  */
 
 #include <Wire.h>
@@ -67,14 +73,12 @@ void setup() {
 
 void loop() {
   uint32_t now = millis();
-  if (pressed) {
-    digitalWrite(LED_PIN, HIGH);
-    if (now - last_poll_time >= config::POLL_INTERVAL_MS) {
-      for (int i = 0; i < config::NUM_READERS; i++) {
-        readers[i].update();
-      }
-      last_poll_time = now;
+
+  if (now - last_poll_time >= config::POLL_INTERVAL_MS) {
+    for (int i = 0; i < config::NUM_READERS; i++) {
+      readers[i].update();
     }
+    last_poll_time = now;
   } else {
     digitalWrite(LED_PIN, LOW);
   }
