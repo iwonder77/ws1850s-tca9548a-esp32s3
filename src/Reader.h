@@ -37,11 +37,11 @@ private:
   uint32_t first_seen_time = 0;
 
   uint8_t consecutive_fails = 0;
-  byte last_UID[10]{};
-  byte last_UID_length = 0;
+  uint8_t last_UID[10]{};
+  uint8_t last_UID_length = 0;
 
   void clearTagData();
   void readTagData();
   uint8_t calculateChecksum(const uint8_t *data, uint8_t length);
-  bool compareUID(byte *uid1, uint8_t len1, byte *uid2, uint8_t len2);
+  bool compareUID(uint8_t *uid1, uint8_t len1, uint8_t *uid2, uint8_t len2);
 };
