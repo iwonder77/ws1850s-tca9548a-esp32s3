@@ -7,8 +7,15 @@
 #include <Wire.h>
 
 #include "Config.h"
+#include "MuxController.h"
 
 enum TagState { TAG_ABSENT, TAG_DETECTED, TAG_PRESENT, TAG_REMOVED };
+
+// Reader class owns channel switching on mux for now
+struct MuxGuard {
+  MuxGuard(uint8_t ch) { MuxController::selectChannel(ch); }
+  ~MuxGuard() { MuxController::disableChannel(); }
+};
 
 class Reader {
 public:

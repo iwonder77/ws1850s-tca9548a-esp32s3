@@ -1,11 +1,11 @@
 #include "Reader.h"
 #include "Config.h"
-#include "MuxController.h"
 
 // NOTE: must call Wire.begin() in setup() before we initialize reader!
 void Reader::init() {
-  // we own channel switching on I2C mux here
-  MuxController::selectChannel(channel_);
+  // a guard is used to ensure channel is disabled when this guy goes out of
+  // scope (see struct in Reader.h)
+  MuxGuard guard(channel_);
 
   Serial.print("Testing ");
   Serial.print(name_);
@@ -25,12 +25,10 @@ void Reader::init() {
 
   // initialize hardware instance
   reader_.PCD_Init();
-
-  MuxController::disableChannel();
 }
 
 void Reader::update() {
-  MuxController::selectChannel(channel_);
+  MuxGuard guard(channel_);
 
   if (!reader_ok) {
     return;
@@ -135,8 +133,6 @@ void Reader::update() {
       break;
     }
   }
-
-  MuxController::disableChannel();
 }
 
 void Reader::printStatus() const {
