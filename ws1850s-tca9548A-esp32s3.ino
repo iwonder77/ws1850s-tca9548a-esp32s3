@@ -54,7 +54,7 @@ void setup() {
   Wire.setClock(400000);  // RFID2 supports 400 kHz fast mode; reduces read latency
   delay(100);
 
-  for (int i = 0; i < config::NUM_READERS; i++) {
+  for (int i = 0; i < NUM_READERS; i++) {
     readers[i].init();
   }
 
@@ -77,7 +77,7 @@ void loop() {
   if (pressed) {
     digitalWrite(LED_PIN, HIGH);
     if (now - last_poll_time >= config::POLL_INTERVAL_MS) {
-      for (int i = 0; i < config::NUM_READERS; i++) {
+      for (int i = 0; i < NUM_READERS; i++) {
         readers[i].update();
       }
       last_poll_time = now;
