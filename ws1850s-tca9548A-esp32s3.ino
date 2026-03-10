@@ -27,7 +27,7 @@
 #include "src/Config.h"
 #include "src/Reader.h"
 
-Reader readers[] = { { "ch_0", 0 }, { "ch_1", 1 } };
+Reader readers[] = { { "ch_0", 0 }, { "ch_1", 1 }, { "ch_2", 2 }, { "ch_3", 3 } };
 constexpr uint8_t NUM_READERS = sizeof(readers) / sizeof(readers[0]);
 uint32_t last_poll_time = 0;
 
